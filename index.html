@@ -2,229 +2,469 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sportsium – Esports & Sports Predictions</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sportsium - Esports & Sports Predictions</title>
   <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      background: linear-gradient(to right, #0f0f1c, #161627);
-      color: #e0e0e0;
+    /* Reset */
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0d1117;
+      color: #cdd9e5;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    /* Header & Nav */
     header {
-      background-color: #1f1f38;
-      padding: 40px 20px;
-      text-align: center;
-      box-shadow: 0 0 20px rgba(41, 182, 246, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      background: #0d1117;
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.7);
     }
 
     header h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 3em;
-      color: #29b6f6;
-      margin: 0;
-    }
-
-    header p {
-      font-size: 1.1em;
-      color: #ccc;
+      font-size: 2.8rem;
+      font-weight: 700;
+      user-select: none;
     }
 
     nav {
-      background-color: #14142b;
-      padding: 15px 0;
-      text-align: center;
+      position: relative;
     }
 
-    nav a {
-      color: #fff;
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-menu li a {
+      color: #cdd9e5;
       text-decoration: none;
-      margin: 0 18px;
-      font-weight: 500;
-      font-size: 1em;
-      transition: color 0.3s;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    nav a:hover {
-      color: #29b6f6;
+    .nav-menu li a:hover,
+    .nav-menu li a:focus {
+      background-color: #238636;
+      color: #fff;
+      outline: none;
+    }
+
+    /* Hamburger button - hidden on desktop */
+    #nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 30px;
+      height: 24px;
+      position: relative;
+      z-index: 110;
+    }
+
+    .hamburger,
+    .hamburger::before,
+    .hamburger::after {
+      content: "";
+      display: block;
+      background-color: #cdd9e5;
+      height: 3px;
+      border-radius: 2px;
+      position: absolute;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .hamburger::before {
+      top: -8px;
+    }
+
+    .hamburger::after {
+      top: 8px;
+    }
+
+    /* Toggle hamburger to X */
+    #nav-toggle.active .hamburger {
+      background-color: transparent;
+    }
+
+    #nav-toggle.active .hamburger::before {
+      transform: rotate(45deg);
+      top: 0;
+    }
+
+    #nav-toggle.active .hamburger::after {
+      transform: rotate(-45deg);
+      top: 0;
+    }
+
+    /* Mobile styles */
+    @media (max-width: 768px) {
+      #nav-toggle {
+        display: block;
+      }
+
+      .nav-menu {
+        position: fixed;
+        top: 70px;
+        right: 0;
+        background: #161b22;
+        height: calc(100vh - 70px);
+        width: 220px;
+        flex-direction: column;
+        padding: 30px 20px;
+        gap: 20px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        box-shadow: -3px 0 15px rgba(0,0,0,0.5);
+        border-left: 2px solid #238636;
+      }
+
+      .nav-menu.open {
+        transform: translateX(0);
+      }
+
+      .nav-menu li a {
+        font-size: 1.3rem;
+        padding: 12px 10px;
+      }
+    }
+
+    /* Main content */
+    main {
+      flex-grow: 1;
+      padding: 30px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
     }
 
     section {
-      max-width: 960px;
-      margin: 40px auto;
-      padding: 0 20px;
+      margin-bottom: 40px;
     }
 
     h2 {
-      color: #29b6f6;
-      border-bottom: 2px solid #29b6f6;
-      padding-bottom: 6px;
-      margin-bottom: 20px;
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: #58a6ff;
     }
 
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      color: #8b949e;
+    }
+
+    /* Join Discord Button */
     .button {
       display: inline-block;
+      background-color: #238636;
+      color: white;
       padding: 14px 28px;
-      background-color: #29b6f6;
-      color: #0a0a0a;
-      font-weight: bold;
+      font-size: 1.25rem;
+      border: none;
       border-radius: 8px;
+      cursor: pointer;
       text-decoration: none;
-      margin-top: 20px;
-      transition: background 0.3s ease;
+      transition: background-color 0.3s ease;
+      user-select: none;
     }
 
-    .button:hover {
-      background-color: #03a9f4;
+    .button:hover,
+    .button:focus {
+      background-color: #2ea043;
+      outline: none;
     }
 
-    .tracker {
-      background-color: #1f1f38;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(41, 182, 246, 0.2);
+    /* Match Tracker */
+
+    #match-list {
+      max-height: 500px;
+      overflow-y: auto;
+      padding-right: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: #29b6f6 transparent;
+    }
+
+    #match-list::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #match-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    #match-list::-webkit-scrollbar-thumb {
+      background-color: #29b6f6;
+      border-radius: 4px;
     }
 
     .match {
-      background: #2b2b3d;
       padding: 15px;
       border-radius: 8px;
       margin-bottom: 15px;
-      box-shadow: 0 0 10px rgba(41, 182, 246, 0.1);
-      transition: transform 0.2s;
+      border: 1px solid #ccc;
+      transition: transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .match:hover {
-      transform: scale(1.02);
+      transform: scale(1.01);
     }
 
-    .match span {
-      display: block;
-      margin-bottom: 5px;
+    /* Headings inside match-list */
+    #match-list h3 {
+      color: #58a6ff;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-weight: 700;
     }
 
-    footer {
-      text-align: center;
-      padding: 25px;
-      background-color: #1e1e2f;
-      color: #aaa;
-      font-size: 0.9em;
-    }
+    /* Responsive styles */
 
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 2em;
+    @media (max-width: 768px) {
+      body {
+        font-size: 16px;
       }
 
-      nav a {
-        display: block;
-        margin: 10px 0;
+      header {
+        padding: 15px 20px;
+      }
+
+      header h1 {
+        font-size: 2rem;
+      }
+
+      nav {
+        /* no change */
+      }
+
+      .nav-menu {
+        width: 200px;
+        padding: 20px 15px;
+      }
+
+      main {
+        padding: 20px;
+        max-width: 100%;
+      }
+
+      #match-list {
+        max-height: 350px;
+      }
+
+      .match {
+        padding: 12px;
+        font-size: 0.95rem;
       }
 
       .button {
-        padding: 12px 20px;
+        width: 100%;
+        font-size: 1.1rem;
+        padding: 14px 0;
+        border-radius: 6px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      header h1 {
+        font-size: 1.6rem;
+      }
+
+      .nav-menu li a {
+        font-size: 1.1rem;
+      }
+
+      .button {
+        font-size: 1rem;
+        padding: 12px 0;
+      }
+
+      .match {
+        font-size: 0.9rem;
+        padding: 10px;
       }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Sportsium</h1>
-    <p>Your Hub for Esports & Sports Predictions</p>
-  </header>
-
+<header>
+  <h1>Sportsium</h1>
   <nav>
-    <a href="#home">Home</a>
-    <a href="#story">Our Story</a>
-    <a href="#tracker">Match Tracker</a>
-    <a href="https://discord.gg/JrxqybqUkk" target="_blank">Join Discord</a>
-  </nav>
-
-  <section id="home">
-    <h2>🔥 Welcome to Sportsium</h2>
-    <p>At Sportsium, we blend data, intuition, and passion to bring you the sharpest takes in the game. Whether it's CS2, Valorant, League of Legends, or MLB — our mission is simple: help you win.</p>
-    <ul>
-      <li>✅ Daily Sports & Esports Predictions</li>
-      <li>✅ Pre-Match Analysis & Stats</li>
-      <li>✅ Discord-Only Betting Tips</li>
-      <li>✅ Insider Plays, Value Picks & Parlays</li>
+    <button id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="hamburger"></span>
+    </button>
+    <ul id="nav-menu" class="nav-menu">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#tracker">Match Tracker</a></li>
+      <li><a href="#discord">Join Discord</a></li>
     </ul>
-    <a class="button" href="https://discord.gg/JrxqybqUkk" target="_blank">Join Our Discord</a>
+  </nav>
+</header>
+
+<main>
+  <section id="home">
+    <h2>Welcome to Sportsium</h2>
+    <p>Your go-to platform for esports and sports predictions. Join our Discord community to stay ahead with real-time updates and expert analysis.</p>
+    <a href="https://discord.gg/VU2zp2YDGT" target="_blank" class="button" id="discord">Join Our Discord</a>
   </section>
 
-  <section id="story">
-    <h2>📖 Our Story</h2>
-    <p>It started with a group of friends—stats junkies, esports nerds, and sports bettors—obsessed with predicting outcomes. Not just guessing… <strong>predicting</strong>.</p>
-    <p>One day, a wild bet on an underdog CS2 team changed everything. We didn’t just win—we crushed. That moment sparked the idea: <em>Why not build something real? A home for people like us.</em></p>
-    <p>And so, Sportsium was born. A place where logic beats hype, data fuels confidence, and everyone has a shot at an edge. Inside our Discord, we don’t just follow games—we <strong>outsmart them</strong>.</p>
-    <a class="button" href="https://discord.gg/JrxqybqUkk" target="_blank">Join Us Now</a>
+  <section id="about">
+    <h2>About Sportsium</h2>
+    <p>Sportsium was born out of passion for esports and sports, delivering accurate and engaging predictions to help you make smarter bets. Our vibrant Discord community connects fans, experts, and enthusiasts in one place.</p>
   </section>
 
-  <section id="tracker" class="tracker">
+  <section id="tracker">
     <h2>📊 Match Tracker</h2>
     <div id="match-list">Loading matches...</div>
   </section>
+</main>
 
-  <footer>
-    &copy; 2025 Sportsium. All rights reserved.
-  </footer>
+<script>
+  // Navigation toggle for mobile
+  const navToggle = document.getElementById("nav-toggle");
+  const navMenu = document.getElementById("nav-menu");
 
-  <script>
-    const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQuiPV3WJ6l5I9M3P0XXH7OUT5YEgodqpOHmcbuNGyEgyHCJgxEq9dxT-mFP7w9vZ8W0HGf4cdynIsG/pub?output=csv";
+  navToggle.addEventListener("click", () => {
+    navMenu.classList.toggle("open");
+    navToggle.classList.toggle("active");
 
-    fetch(sheetURL)
+    const expanded = navToggle.getAttribute("aria-expanded") === "true";
+    navToggle.setAttribute("aria-expanded", !expanded);
+  });
+
+  // Match tracker script
+  const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQuiPV3WJ6l5I9M3P0XXH7OUT5YEgodqpOHmcbuNGyEgyHCJgxEq9dxT-mFP7w9vZ8W0HGf4cdynIsG/pub?output=csv"; // <-- Replace this with your Google Sheets CSV link
+
+  fetch(sheetURL)
     .then(response => {
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       return response.text();
     })
     .then(data => {
-      const rows = data.split("\n").filter(row => row.trim().length > 0).slice(1); // Skip headers
+      const rows = data
+        .split("\n")
+        .filter(row => row.trim().length > 0)
+        .slice(1)
+        .map(row => row.split(","))
+        .filter(cols => cols.length >= 6);
+
+      // Separate upcoming (no prediction) and predicted matches
+      const upcomingMatches = rows.filter(cols => cols[4].trim() === "");
+      const predictedMatches = rows.filter(cols => cols[4].trim() !== "");
+
+      // Sort both by date descending
+      upcomingMatches.sort((a, b) => new Date(b[0]) - new Date(a[0]));
+      predictedMatches.sort((a, b) => new Date(b[0]) - new Date(a[0]));
+
       const matchList = document.getElementById("match-list");
       matchList.innerHTML = "";
 
-      if (rows.length === 0) {
-        matchList.textContent = "No match data found.";
-        return;
+      // Upcoming matches
+      if (upcomingMatches.length > 0) {
+        const upcomingHeader = document.createElement("h3");
+        upcomingHeader.textContent = "⏳ Ongoing or Upcoming Matches";
+        matchList.appendChild(upcomingHeader);
+
+        upcomingMatches.forEach(cols => {
+          const [date, match] = cols;
+          const matchDiv = document.createElement("div");
+          matchDiv.className = "match";
+          matchDiv.style.background = "none";
+          matchDiv.style.color = "#ccc";
+          matchDiv.innerHTML = `
+            <span><strong>${match.trim()}</strong> – ${date.trim()}</span>
+            <span style="font-style: italic; color: #888;">⏳ Match is currently ongoing or prediction pending</span>
+          `;
+          matchList.appendChild(matchDiv);
+        });
       }
 
-      rows.forEach(row => {
-        const cols = row.split(",");
-        if (cols.length < 6) return;
+      // Predicted matches
+      if (predictedMatches.length > 0) {
+        let correct = 0;
+        let total = 0;
 
-        const [date, match, winner, loser, prediction, odds] = cols;
-        const isCorrect = prediction.trim().toLowerCase() === winner.trim().toLowerCase();
+        const predictedHeader = document.createElement("h3");
+        predictedHeader.style.marginTop = "30px";
+        predictedHeader.textContent = "🧠 Predictions & Results";
+        matchList.appendChild(predictedHeader);
 
-        const matchDiv = document.createElement("div");
-        matchDiv.className = "match";
+        predictedMatches.forEach(cols => {
+          const [date, match, winner, loser, prediction, odds] = cols;
+          const trimmedPrediction = prediction.trim();
+          const isCorrect = trimmedPrediction.toLowerCase() === winner.trim().toLowerCase();
+          total++;
+          if (isCorrect) correct++;
 
-        if (isCorrect) {
-          // Light green for correct predictions
-          matchDiv.style.backgroundColor = "#e6f9ec";
-          matchDiv.style.color = "#153d24";
-        } else {
-          // Super light red for incorrect predictions
-          matchDiv.style.backgroundColor = "#ffeaea";
-          matchDiv.style.color = "#4b1d1d";
-        }
+          const matchDiv = document.createElement("div");
+          matchDiv.className = "match";
 
-        matchDiv.innerHTML = `
-          <span><strong>${match.trim()}</strong> – ${date.trim()}</span>
-          <span>🏆 <strong>${winner.trim()}</strong> beat ${loser.trim()}</span>
-          <span>Prediction: ${prediction.trim()}</span>
-          <span>💰 Odds: ${odds.trim()}</span>
-        `;
-        matchList.appendChild(matchDiv);
-      });
+          if (isCorrect) {
+            matchDiv.style.backgroundColor = "#e6f9ec"; // light green
+            matchDiv.style.color = "#153d24";
+          } else {
+            matchDiv.style.backgroundColor = "#ffeaea"; // light red
+            matchDiv.style.color = "#4b1d1d";
+          }
+
+          matchDiv.innerHTML = `
+            <span><strong>${match.trim()}</strong> – ${date.trim()}</span>
+            <span>🏆 <strong>${winner.trim()}</strong> beat ${loser.trim()}</span>
+            <span>Prediction: ${prediction.trim()}</span>
+            <span>💰 Odds: ${odds.trim()}</span>
+          `;
+          matchList.appendChild(matchDiv);
+        });
+
+        // Winning Percentage
+        const percent = ((correct / total) * 100).toFixed(1);
+        const summary = document.createElement("div");
+        summary.style.margin = "20px 0";
+        summary.style.fontWeight = "bold";
+        summary.style.fontSize = "1.2em";
+        summary.textContent = `🧮 Winning Percentage: ${percent}% (${correct} out of ${total} correct)`;
+        matchList.insertBefore(summary, predictedHeader);
+      } else if (upcomingMatches.length === 0) {
+        matchList.innerHTML = `<div style="padding: 10px; font-style: italic; color: #aaa;">No match data available.</div>`;
+      }
     })
     .catch(error => {
       document.getElementById("match-list").textContent = "Failed to load match data.";
       console.error("Error loading sheet:", error);
     });
-  </script>
+</script>
 
 </body>
 </html>
